@@ -9,3 +9,6 @@ run:
 
 logs:
 	tail -f storage/logs/lumen.log
+
+lint:
+	composer run-script phpcs -- --standard=PSR2 routes tests

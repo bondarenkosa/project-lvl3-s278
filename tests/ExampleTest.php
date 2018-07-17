@@ -1,4 +1,5 @@
 <?php
+namespace App\Tests;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
@@ -17,8 +18,6 @@ class ExampleTest extends TestCase
         $pathToFileWithExpectedData = implode(DIRECTORY_SEPARATOR, ["tests", "fixtures", "navbar.html"]);
         $expected = file_get_contents($pathToFileWithExpectedData);
 
-        $this->assertEquals(
-            $expected, $this->response->getContent()
-        );
+        $this->assertEquals($expected, $this->response->getContent());
     }
 }
