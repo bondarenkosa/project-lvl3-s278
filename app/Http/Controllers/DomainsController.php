@@ -9,7 +9,8 @@ class DomainsController extends Controller
 {
     public function index()
     {
-        $domains = Domain::all();
+        $perPage = 5;
+        $domains = Domain::paginate($perPage);
 
         return view('domains.index', ['domains' => $domains]);
     }
