@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2 class="display-4">Domains list</h1>
+    <h2 class="display-4">Domains list</h2>
     <table class="table table-striped">
       <thead>
         <tr>
