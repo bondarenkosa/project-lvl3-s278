@@ -9,22 +9,25 @@ class DomainsTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $newData = ['name' => 'site.com'];
+
     public function testDomainsPost()
     {
-        $data = ['name' => 'site.com'];
-        $response = $this->post('domains', $data);
+        $response = $this->post('domains', $this->newData);
         $this->assertResponseStatus(302);
 
-        $this->seeInDatabase('domains', $data);
+        $this->seeInDatabase('domains', $this->newData);
     }
 
-    public function testDomainCreateAndView()
+    public function testDomainsCreateAndView()
     {
-        $data = ['name' => 'test.org'];
-        $domain = factory('App\Domain')->create($data);
-        $this->seeInDatabase('domains', $data);
+        $domain = factory('App\Domain')->create($this->newData);
+        $this->seeInDatabase('domains', $this->newData);
 
         $this->get("domains/{$domain->id}");
+        $this->assertResponseOk();
+
+        $this->get("domains");
         $this->assertResponseOk();
     }
 }
