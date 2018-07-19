@@ -10,8 +10,14 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+$router->get('/', [
+    'as' => 'pages.index', 'uses' => 'PagesController@index'
+]);
 
-$router->get('/', 'PagesController@index');
+$router->get('domains/{id}', [
+    'as' => 'domains.show', 'uses' => 'DomainsController@show'
+]);
 
-$router->get('domains/{id}', 'DomainsController@show');
-$router->post('domains', 'DomainsController@store');
+$router->post('domains', [
+    'as' => 'domains.store', 'uses' => 'DomainsController@store'
+]);

@@ -19,6 +19,7 @@ class DomainsController extends Controller
         $this->validate($request, ['name' => 'required']);
         $domain = Domain::create($request->all());
 
-        return redirect("domains/{$domain->id}");
+        return redirect()
+            ->route("domains.show", ["id" => $domain->id]);
     }
 }
