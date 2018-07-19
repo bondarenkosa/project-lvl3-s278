@@ -14,6 +14,10 @@ $router->get('/', [
     'as' => 'pages.index', 'uses' => 'PagesController@index'
 ]);
 
+$router->get('domains', [
+    'as' => 'domains.index', 'uses' => 'DomainsController@index'
+]);
+
 $router->get('domains/{id}', [
     'as' => 'domains.show', 'uses' => 'DomainsController@show'
 ]);

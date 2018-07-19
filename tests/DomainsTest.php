@@ -9,7 +9,7 @@ class DomainsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $newData = ['name' => 'site.com'];
+    protected $newData = ['name' => 'https://ru.hexlet.io'];
 
     public function testDomainsPost()
     {

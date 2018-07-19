@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class DomainsController extends Controller
 {
+    public function index()
+    {
+        $domains = Domain::all();
+
+        return view('domains.index', ['domains' => $domains]);
+    }
+
     public function show($id)
     {
         $domain = Domain::findOrFail($id);
