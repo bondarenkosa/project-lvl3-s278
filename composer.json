@@ -37,6 +37,9 @@
         "post-install-cmd": [
             "php artisan migrate --force"
         ],
+        "post-update-cmd": [
+            "php artisan migrate --force"
+        ],
         "phpcs": "phpcs",
         "phpunit": "phpunit"
     },
