@@ -11,6 +11,7 @@
 |
 */
 
-$router->get('/', function () {
-    return view('index');
-});
+$router->get('/', 'PagesController@index');
+
+$router->get('domains/{id}', 'DomainsController@show');
+$router->post('domains', 'DomainsController@store');
