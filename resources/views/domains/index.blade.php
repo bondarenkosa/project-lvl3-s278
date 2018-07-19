@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2 class="display-4">Domains list</h2>
+    <h2 class="display-4">List of Domains</h2>
     @if ($domains)
         <table class="table table-striped">
           <thead>
@@ -16,7 +16,7 @@
             @foreach ($domains as $domain)
               <tr>
                  <th scope="row">{{ $domain->id }}</th>
-                 <td><a href="{{ $domain->name }}" target="_blank">{{ $domain->name }}</a></td>
+                 <td><a href="{{ route('domains.show', ['id' => $domain->id]) }}" target="_blank">{{ $domain->name }}</a></td>
                  <td>{{ $domain->updated_at }}</td>
                  <td>{{ $domain->created_at }}</td>
               </tr>
