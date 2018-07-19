@@ -2,6 +2,7 @@
 namespace Tests;
 
 use Tests\TestCase;
+use App\Domain;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -13,10 +14,23 @@ class DomainsTest extends TestCase
 
     public function testDomainsPost()
     {
-        $response = $this->post('domains', $this->newData);
+        $this->post('domains', $this->newData);
         $this->assertResponseStatus(302);
-
         $this->seeInDatabase('domains', $this->newData);
+    }
+
+    public function testDomainsMassAssignment()
+    {
+        $wrongId = 9999;
+        $domainName = 'https://ya.ru';
+        $wrongData = [
+            'id' => $wrongId,
+            'name' => $domainName
+        ];
+        $this->post('domains', $wrongData);
+        $this->assertResponseStatus(302);
+        $this->notSeeInDatabase('domains', $wrongData);
+        $this->seeInDatabase('domains', ['name' => $domainName]);
     }
 
     public function testDomainsCreateAndView()
