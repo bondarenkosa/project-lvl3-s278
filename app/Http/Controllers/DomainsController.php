@@ -23,7 +23,7 @@ class DomainsController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'required']);
+        $this->validate($request, ['name' => 'required|url']);
         $domain = Domain::create($request->all());
 
         return redirect()
