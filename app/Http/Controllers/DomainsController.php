@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Domain;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class DomainsController extends Controller
 {
@@ -24,7 +25,12 @@ class DomainsController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'required|url']);
+        try {
+            $this->validate($request, ['name' => 'required|url']);
+        } catch (ValidationException $e) {
+            abort(422, $e->getMessage());
+        }
+
         $domain = Domain::create($request->all());
 
         return redirect()

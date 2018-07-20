@@ -17,6 +17,11 @@ class DomainsTest extends TestCase
         $this->post('domains', $this->newData);
         $this->assertResponseStatus(302);
         $this->seeInDatabase('domains', $this->newData);
+
+        $wrongData = ['name' => 'not valid url'];
+        $this->post('domains', $wrongData);
+        $this->assertResponseStatus(422);
+        $this->notSeeInDatabase('domains', $wrongData);
     }
 
     public function testDomainsMassAssignment()

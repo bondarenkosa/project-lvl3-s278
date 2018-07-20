@@ -2,7 +2,7 @@
 
 @section('content')
     <h2 class="display-4">List of Domains</h2>
-    @if ($domains)
+    @if (count($domains))
         <table class="table table-striped">
           <thead>
             <tr>
