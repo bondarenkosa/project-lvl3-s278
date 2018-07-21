@@ -34,11 +34,17 @@ class DomainsController extends Controller
             return response(view('pages.index', $data), 422);
         }
 
-        $client = new Client(['timeout'  => 10.0]);
+        $client = new Client(['timeout'  => 10.01]);
         try {
             $res = $client->get($data['name']);
         } catch (\Exception $e) {
-            $data['errors'] = [$e->getMessage()];
+            $data['errors'] = [$e->getHandlerContext()['error']];
+            return response(view('pages.index', $data), 422);
+        }
+
+        $contentType = $res->getHeader('content-type');
+        if (empty($contentType) || strpos($contentType[0], 'text/html') === false) {
+            $data['errors'] = ['Content type is invalid. Only text/html.'];
             return response(view('pages.index', $data), 422);
         }
 
@@ -49,7 +55,7 @@ class DomainsController extends Controller
         $domain->body = $res->getBody()->getContents();
 
         $domain->save();
-        
+
         return redirect()
             ->route("domains.show", ["id" => $domain->id]);
     }
