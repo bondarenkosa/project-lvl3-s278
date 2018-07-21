@@ -28,7 +28,12 @@ class DomainsController extends Controller
         try {
             $this->validate($request, ['name' => 'required|url']);
         } catch (ValidationException $e) {
-            abort(422, $e->getMessage());
+            $data = [
+                'name' => $request->input('name'),
+                'errors' => $e->getResponse()->getOriginalContent()
+            ];
+
+            return response(view('pages.index', $data), 422);
         }
 
         $domain = Domain::create($request->all());
