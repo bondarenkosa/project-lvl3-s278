@@ -9,9 +9,13 @@
             <small id="nameHelp" class="form-text text-muted">
                 Example: https://ru.hexlet.io
             </small>
-            @isset($errors['name'])
+            @isset($errors)
                 <div class="alert alert-danger" role="alert">
-                  {{ $errors['name'][0] }}
+                    <ul>
+                        @foreach ($errors as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endisset
         </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Domain;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Validator;
+use GuzzleHttp\Client;
 
 class DomainsController extends Controller
 {
@@ -25,19 +27,29 @@ class DomainsController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $this->validate($request, ['name' => 'required|url']);
-        } catch (ValidationException $e) {
-            $data = [
-                'name' => $request->input('name'),
-                'errors' => $e->getResponse()->getOriginalContent()
-            ];
-
+        $data['name'] = $request->input('name');
+        $validator = Validator::make($request->all(), ['name' => 'required|url']);
+        if ($validator->fails()) {
+            $data['errors'] = $validator->errors()->all();
             return response(view('pages.index', $data), 422);
         }
 
-        $domain = Domain::create($request->all());
+        $client = new Client(['timeout'  => 10.0]);
+        try {
+            $res = $client->get($data['name']);
+        } catch (\Exception $e) {
+            $data['errors'] = [$e->getMessage()];
+            return response(view('pages.index', $data), 422);
+        }
 
+        $domain = new Domain;
+        $domain->name = $data['name'];
+        $domain->status_code = $res->getStatusCode();
+        $domain->content_length = $res->hasHeader('content-length') ? $res->getHeader('content-length')[0] : null;
+        $domain->body = $res->getBody()->getContents();
+
+        $domain->save();
+        
         return redirect()
             ->route("domains.show", ["id" => $domain->id]);
     }

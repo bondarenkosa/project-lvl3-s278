@@ -8,6 +8,8 @@
             <tr>
               <th scope="col">id</th>
               <th scope="col">Name</th>
+              <th scope="col">Status code</th>
+              <th scope="col">Content length</th>
               <th scope="col">Updated at</th>
               <th scope="col">Created at</th>
             </tr>
@@ -16,7 +18,9 @@
             @foreach ($domains as $domain)
               <tr>
                  <th scope="row">{{ $domain->id }}</th>
-                 <td><a href="{{ route('domains.show', ['id' => $domain->id]) }}" target="_blank">{{ $domain->name }}</a></td>
+                 <td><a href="{{ route('domains.show', ['id' => $domain->id]) }}">{{ $domain->name }}</a></td>
+                 <td>{{ $domain->status_code }}</td>
+                 <td>{{ $domain->content_length }}</td>
                  <td>{{ $domain->updated_at }}</td>
                  <td>{{ $domain->created_at }}</td>
               </tr>
