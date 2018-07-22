@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Validator;
 use GuzzleHttp\Client;
+use DiDom\Document;
 
 class DomainsController extends Controller
 {
@@ -34,7 +35,7 @@ class DomainsController extends Controller
             return response(view('pages.index', $data), 422);
         }
 
-        $client = new Client(['timeout'  => 10.01]);
+        $client = new Client(['timeout'  => 10]);
         try {
             $res = $client->get($data['name']);
         } catch (\Exception $e) {
@@ -53,6 +54,11 @@ class DomainsController extends Controller
         $domain->status_code = $res->getStatusCode();
         $domain->content_length = $res->hasHeader('content-length') ? $res->getHeader('content-length')[0] : null;
         $domain->body = $res->getBody()->getContents();
+
+        $doc = new Document($domain->body);
+        $domain->header1 = $doc->first('h1::text');
+        $domain->keywords = $doc->first('meta[name=keywords]::attr(content)');
+        $domain->description = $doc->first('meta[name=description]::attr(content)');
 
         $domain->save();
 
